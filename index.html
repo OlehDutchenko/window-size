@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Window Size</title>
+		<meta name="HandheldFriendly" content="True">
+		<meta name="MobileOptimized" content="320">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<link rel="shortcut icon" href="./favicon.png">
+		<style>
+			html, body {
+				margin: 0;
+				padding: 0;
+				position: relative;
+				height: 100%;
+				font-size: 100%;
+				font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+			}
+			section {
+				display: table;
+				position: relative;
+				height: 100%;
+				width: 100%;
+				text-align: center;
+			}
+			div {
+				display: table-cell;
+				vertical-align: middle;
+			}
+			h1 {
+				margin: 10px 0;
+				font-size: 3rem;
+			}
+			h3 {
+				margin: 10px 0;
+				font-size: 1.6rem;
+			}
+			small {
+				opacity: .5;
+			}
+			img {
+				max-width: 200px;
+				padding: 1rem;
+				margin: 1rem;
+				border: 1px solid #ccc;
+			}
+			pre {
+				margin: 10px;
+				display: inline-block;
+				background-color: #f5f5f5;
+				padding: 1rem;
+			}
+			@media (min-width: 1024px) {
+				h1 {
+					font-size: 5rem;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<section>
+			<div>
+				<h1 id="outer">000<small>×</small>000</h1>
+				<h3 id="inner">000<small>×</small>000</h3>
+				<h4>
+					<em>
+						devicePixelRatio: <span id="devicePixelRatio">2</span><br>
+						dpi_x: <span id="dpi_x">00</span> <small>×</small> 96<br>
+						dpi_y: <span id="dpi_y">00</span> <small>×</small> 96
+					</em>
+				</h4>
+				<div id="testdiv" style="height: 1in; left: -100%; position: absolute; top: -100%; width: 1in;"></div>
+			</div>
+		</section>
+		<hr width="110%">
+		<section>
+			<div>
+				<img 
+					alt
+					src="./qr-code.jpg"
+					aria-hidden="true"
+					draggable="false" 
+					loading="lazy"
+				>
+			</div>
+		</section>
+		<script>
+			(function() {
+				
+				const devicePixelRatio = window.devicePixelRatio || 1;
+				const testDiv = document.getElementById('testdiv');
+				dpi_x = testDiv.offsetWidth * devicePixelRatio;
+				dpi_y = testDiv.offsetHeight * devicePixelRatio;
+				
+				document.getElementById('devicePixelRatio').textContent = devicePixelRatio;
+				document.getElementById('dpi_x').textContent = dpi_x;
+				document.getElementById('dpi_y').textContent = dpi_y;
+				
+				function printSize() {
+					const x = '<small>&times;</small>';
+					document.getElementById('outer').innerHTML = window.outerWidth + x + window.outerHeight;
+					document.getElementById('inner').innerHTML = window.innerWidth + x + window.innerHeight;
+				}
+
+				window.addEventListener('resize', printSize);
+				window.addEventListener('orientationchange', printSize)
+				printSize();
+			})();
+		</script>
+	</body>
+</html>
