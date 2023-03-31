@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
 		<meta charset="UTF-8">
 		<title>Window Size</title>
@@ -70,10 +70,10 @@
 						dpi_y: <span id="dpi_y">00</span> <small>×</small> 96
 					</em>
 				</h4>
-				<div id="testdiv" style="height: 1in; left: -100%; position: absolute; top: -100%; width: 1in;"></div>
+				<div id="test-div" style="height: 1in; left: -100%; position: absolute; top: -100%; width: 1in;"></div>
 			</div>
 		</section>
-		<hr width="110%">
+		<hr style="width: 110%">
 		<section>
 			<div>
 				<img 
@@ -87,25 +87,34 @@
 		</section>
 		<script>
 			(function() {
-				
+				'use strict';
+
 				const devicePixelRatio = window.devicePixelRatio || 1;
-				const testDiv = document.getElementById('testdiv');
-				dpi_x = testDiv.offsetWidth * devicePixelRatio;
-				dpi_y = testDiv.offsetHeight * devicePixelRatio;
+				const testDiv = document.getElementById('test-div');
+				const dpi_x = testDiv.offsetWidth * devicePixelRatio;
+				const dpi_y = testDiv.offsetHeight * devicePixelRatio;
 				
 				document.getElementById('devicePixelRatio').textContent = devicePixelRatio;
 				document.getElementById('dpi_x').textContent = dpi_x;
 				document.getElementById('dpi_y').textContent = dpi_y;
-				
+
 				function printSize() {
 					const x = '<small>&times;</small>';
 					document.getElementById('outer').innerHTML = window.outerWidth + x + window.outerHeight;
 					document.getElementById('inner').innerHTML = window.innerWidth + x + window.innerHeight;
 				}
 
-				window.addEventListener('resize', printSize);
-				window.addEventListener('orientationchange', printSize)
-				printSize();
+				let timer;
+				function delayedPrintSize() {
+					clearTimeout(timer);
+					timer = setTimeout(() => {
+						printSize();
+					}, 300);
+				}
+
+				window.addEventListener('resize', delayedPrintSize);
+				window.addEventListener('orientationchange', delayedPrintSize)
+				delayedPrintSize();
 			})();
 		</script>
 	</body>
